@@ -1,0 +1,8 @@
+E:\App-Drive\Cogencis-Apps\Demo-&-Backup\Desktop-Demo-Projects\WinCaptchaResolver\WinCaptchaResolver\bin\Debug\WinCaptchaResolver.exe.config
+E:\App-Drive\Cogencis-Apps\Demo-&-Backup\Desktop-Demo-Projects\WinCaptchaResolver\WinCaptchaResolver\obj\Debug\WinCaptchaResolver.Properties.Resources.resources
+E:\App-Drive\Cogencis-Apps\Demo-&-Backup\Desktop-Demo-Projects\WinCaptchaResolver\WinCaptchaResolver\obj\Debug\WinCaptchaResolver.csproj.GenerateResource.Cache
+E:\App-Drive\Cogencis-Apps\Demo-&-Backup\Desktop-Demo-Projects\WinCaptchaResolver\WinCaptchaResolver\bin\Debug\WinCaptchaResolver.exe
+E:\App-Drive\Cogencis-Apps\Demo-&-Backup\Desktop-Demo-Projects\WinCaptchaResolver\WinCaptchaResolver\bin\Debug\WinCaptchaResolver.pdb
+E:\App-Drive\Cogencis-Apps\Demo-&-Backup\Desktop-Demo-Projects\WinCaptchaResolver\WinCaptchaResolver\obj\Debug\WinCaptchaResolver.MainForm.resources
+E:\App-Drive\Cogencis-Apps\Demo-&-Backup\Desktop-Demo-Projects\WinCaptchaResolver\WinCaptchaResolver\obj\Debug\WinCaptchaResolver.exe
+E:\App-Drive\Cogencis-Apps\Demo-&-Backup\Desktop-Demo-Projects\WinCaptchaResolver\WinCaptchaResolver\obj\Debug\WinCaptchaResolver.pdb
