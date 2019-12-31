@@ -45,11 +45,11 @@ namespace WinCaptchaResolver
             Bitmap image = new Bitmap(openFileDialog.FileName);
             if (image != null)
             {
-                lblCaptchaText.Text = RecognizeCaptcha(image, 182, 50);
+                lblCaptchaText.Text = RecognizeCaptcha(image, 182, 50, 6);
             }
         }
 
-        private string RecognizeCaptcha(Image img, int varWidth, int varHeight)
+        private string RecognizeCaptcha(Image img, int varWidth, int varHeight, int varCaptchaLength)
         {
             Bitmap imagem = new Bitmap(img);
             imagem = imagem.Clone(new Rectangle(0, 0, varWidth, varHeight), System.Drawing.Imaging.PixelFormat.Format24bppRgb);
@@ -173,7 +173,7 @@ namespace WinCaptchaResolver
 
             pictureBox.Image = immb;
 
-            string reconhecido = OCR(immb);
+            string reconhecido = OCR(immb, varCaptchaLength);
             return reconhecido;
         }
 
@@ -182,7 +182,7 @@ namespace WinCaptchaResolver
         /// </summary>
         /// <param name="varBitMap"></param>
         /// <returns></returns>
-        private string OCR(Bitmap varBitMap)
+        private string OCR(Bitmap varBitMap, int varCaptchaLength)
         {
             string res = string.Empty;
             using (var engine = new TesseractEngine(@"tessdata", "eng", EngineMode.Default))
@@ -197,7 +197,10 @@ namespace WinCaptchaResolver
                 engine.SetVariable("tessedit_unrej_any_wd", true);
 
                 using (var page = engine.Process(varBitMap, PageSegMode.SingleBlock))
+                {
                     res = page.GetText();
+                    res = res.Substring(0, varCaptchaLength);
+                }
             }
             return res;
         }
