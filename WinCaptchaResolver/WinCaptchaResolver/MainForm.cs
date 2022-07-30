@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Tesseract;
 
@@ -25,6 +26,32 @@ namespace WinCaptchaResolver
         public MainForm()
         {
             InitializeComponent();
+
+            DrawAllBackgroundColors();
+        }
+
+        private void DrawAllBackgroundColors()
+        {
+            //convert color code to image
+            //convert lstBlackColorCodeFrame to a a list of Color
+            var bitmap = new Bitmap(bckColorsPictBox.Width, bckColorsPictBox.Height);
+
+            using (var g = Graphics.FromImage(bitmap))
+            {
+                for (var i = 0; i < lstBlackColorCodeFrame.Count; i++)
+                {
+                    var item = lstBlackColorCodeFrame[i];
+                    var color = ColorTranslator.FromHtml(Regex.Replace(item, "^FF", "#", RegexOptions.IgnoreCase));
+
+                    var rectangle = new Rectangle(i * 11, 1, 10, 10);
+                    g.DrawRectangle(new Pen(Color.Red), rectangle);
+                    g.FillRectangle(new SolidBrush(color), rectangle);
+                }
+
+                //bitmap.SetPixel(0, 0, color);
+                //var image = bitmap.Clone(new Rectangle(0, 0, 1, 1), PixelFormat.Format32bppArgb);
+                bckColorsPictBox.Image = bitmap;
+            }
         }
 
         #region OpenFileDialog
