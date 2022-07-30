@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Tesseract;
@@ -30,28 +31,36 @@ namespace WinCaptchaResolver
             DrawAllBackgroundColors();
         }
 
+        /// <summary>
+        /// convert lstBlackColorCodeFrame colors from hex code to image
+        /// </summary>
         private void DrawAllBackgroundColors()
         {
-            //convert color code to image
-            //convert lstBlackColorCodeFrame to a a list of Color
             var bitmap = new Bitmap(bckColorsPictBox.Width, bckColorsPictBox.Height);
+            var colors = lstBlackColorCodeFrame.Select(c => ConvertsColorFromString(c)).ToList();
 
             using (var g = Graphics.FromImage(bitmap))
             {
-                for (var i = 0; i < lstBlackColorCodeFrame.Count; i++)
-                {
-                    var item = lstBlackColorCodeFrame[i];
-                    var color = ColorTranslator.FromHtml(Regex.Replace(item, "^FF", "#", RegexOptions.IgnoreCase));
-
-                    var rectangle = new Rectangle(i * 11, 1, 10, 10);
-                    g.DrawRectangle(new Pen(Color.Red), rectangle);
-                    g.FillRectangle(new SolidBrush(color), rectangle);
-                }
+                for (var i = 0; i < colors.Count; i++) 
+                    DrawSingleRectangle(i, g, colors[i]);
 
                 //bitmap.SetPixel(0, 0, color);
                 //var image = bitmap.Clone(new Rectangle(0, 0, 1, 1), PixelFormat.Format32bppArgb);
                 bckColorsPictBox.Image = bitmap;
             }
+        }
+
+        private static void DrawSingleRectangle(int i, Graphics g, Color color)
+        {
+            var rectangle = new Rectangle(i * 11, 1, 10, 10);
+            g.DrawRectangle(new Pen(Color.Red), rectangle);
+            g.FillRectangle(new SolidBrush(color), rectangle);
+        }
+
+        private static Color ConvertsColorFromString(string item)
+        {
+            var color = ColorTranslator.FromHtml(Regex.Replace(item, "^FF", "#", RegexOptions.IgnoreCase));
+            return color;
         }
 
         #region OpenFileDialog
@@ -70,7 +79,7 @@ namespace WinCaptchaResolver
         private void Ofd_FileOk(object sender, CancelEventArgs e)
         {
             Bitmap image = new Bitmap(openFileDialog.FileName);
-            lblCaptchaText.Text = RecognizeCaptcha(image, 182, 50, 6);
+            lblCaptchaText.Text = RecognizeCaptcha(image, image.Width, image.Height, 8);
         }
 
         #endregion
@@ -278,7 +287,7 @@ namespace WinCaptchaResolver
                 using (var page = engine.Process(varBitMap, PageSegMode.SingleBlock))
                 {
                     res = page.GetText();
-                    res = res.Substring(0, varCaptchaLength);
+                    res = res.Substring(0, Math.Min(res.Length, varCaptchaLength));
                 }
             }
             return res;
