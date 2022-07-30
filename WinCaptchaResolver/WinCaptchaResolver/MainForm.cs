@@ -269,7 +269,7 @@ namespace WinCaptchaResolver
         private static string OCR(Bitmap varBitMap, int varCaptchaLength)
         {
             string res;
-            using (var engine = new TesseractEngine(@"tessdata", "eng", EngineMode.TesseractAndCube))
+            using (var engine = new TesseractEngine(@"tessdata", "eng", EngineMode.TesseractAndLstm))
             {
                 //For Alpha Numeric Captcha//
                 //engine.SetVariable("tessedit_char_whitelist", "0123456789");
